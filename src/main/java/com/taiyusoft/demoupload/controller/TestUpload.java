@@ -3,6 +3,7 @@ package com.taiyusoft.demoupload.controller;
 
 import com.taiyusoft.demoupload.util.FileOperateUtil;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,13 +22,15 @@ import java.nio.channels.FileChannel;
 @RestController
 public class TestUpload {
 
+    private final String uploadPath = "C:\\Users\\Ad\\Desktop";
+
     @RequestMapping(value = "upload")
     public String upload(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) throws IOException {
 
         boolean multipartContent = ServletFileUpload.isMultipartContent(request);
         if (!multipartContent) return "请上传文件";
 
-        String fileDir = "C:\\Users\\Ad\\Desktop";
+        String fileDir = uploadPath;
 //        文件名称
         String fileName = request.getParameter("fileName");
 //        总块数量
@@ -41,7 +44,6 @@ public class TestUpload {
             blockIndex = 0 + blockIndex;
         }
 //        文件保存路径
-
 
         String path = fileDir+File.separator + fileName;
         if (FileOperateUtil.createPath(path)) {
@@ -87,6 +89,17 @@ public class TestUpload {
         }
 //        删除文件
         return FileOperateUtil.deleteGeneralFile(path);
+    }
+
+
+    @PostMapping(value = "UploadFileDir")
+    public String UploadFileDir(MultipartFile[] files) {
+        String result = "";
+        for (MultipartFile file : files) {
+            result += file.getOriginalFilename() + "\n";
+        }
+        System.out.println(result);
+        return result;
     }
 
 }

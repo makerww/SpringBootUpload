@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>文件上传</title>
+  <style>
+    .main-div {
+      width: 300px;
+      margin: auto;
+    }
+
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js "></script>
+  <script src="./js/index.js "></script>
+</head>
+<body>
+
+<!-- 分片上传 Form 提交不刷新-->
+<div class="main-div">
+  <h3>分片上传 Form 提交不刷新</h3>
+  <hr>
+  <form action="/upload" method="POST" enctype="multipart/form-data" target="targetIfr"
+        onsubmit="return false">
+    <button onclick="$('#file').click()">分片上传选中文件</button>
+    <input type="file" id="file" name="file" style="display: none;"/>
+    <input type="submit" value="提交" onclick="fileUpload()">
+  </form>
+  <p class="message"></p>
+  <p class="result"></p>
+</div>
+
+<iframe name="targetIfr" style="display:none"></iframe>
+
+<div class="main-div">
+  <h3>上传文件夹</h3>
+  <hr>
+  <button onclick="$('#files').click()">选择文件按钮</button>
+  <!-- webkitdirectory 是 chrome、 safari 内核浏览器的上传文件夹 mozdirectory是firefox的上传文件夹 -->
+  <input style="display: none" id="files" type="file" name="files" webkitdirectory mozdirectory/>
+  <button onclick="uploadFiles()">上传</button>
+  <p class="message1"></p>
+</div>
+
+</body>
+</html>
